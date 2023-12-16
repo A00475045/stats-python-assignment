@@ -6,34 +6,27 @@ Created on Fri Dec 15 20:12:21 2023
 """
 
 
+import streamlit as app
+import pandas as data
+from matplotlib import pyplot as graph
 
-import streamlit as st
-import pandas as pd
-import matplotlib.pyplot as plt
+app.title('Analysis of Age Distribution')
+data_file = app.file_uploader("Upload a CSV file:", type="csv")
 
+if data_file is not None:
+    data_frame = data.read_csv(data_file)
 
-
-st.title('Q3')
-csv_file = st.file_uploader("select a csv file:", type="csv")
-
-
-    
-df = pd.read_csv(csv_file)
-
-if 'Age' in df.columns and 'Name' in df.columns:
-    st.write("This Graph shows the ages of individuals ")
-  
-    fig, ax = plt.subplots()
-    
-    ax.hist(df['Age'], bins=100, edgecolor='black')
-    ax.set_xlabel('Age')        
-    ax.set_ylabel('Name')
-    ax.set_title('This Graph shows the ages of individuals')
-    
-    st.pyplot(fig)
-        
+    if 'Age' in data_frame.columns and 'Name' in data_frame.columns:
+        app.write("Displaying a histogram for the age distribution")
+        fig, axis = graph.subplots()
+        axis.hist(data_frame['Age'], bins=100, color='red', edgecolor='white')
+        axis.set_xlabel('Ages')
+        axis.set_ylabel('Frequencies')
+        axis.set_title('Age Distribution')
+        app.pyplot(fig)
+    else:
+        app.error("The CSV file must contain 'Age' and 'Name' columns.")
 else:
-        st.error("Invalid File Format")
-        
-        
+    app.write("Please upload a CSV file to proceed.")
+         
 
